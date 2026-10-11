@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#160f1b">
+<title>How Well Do You Know Me? ♡</title>
+<style>
+:root{--bg:#100d16;--panel:#1b1522;--pink:#ff9fbd;--pink2:#ff6e9c;--text:#fff5fa;--muted:#cbb9c7;--line:#4b3547}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#3b2035 0,#160f1b 42%,#0c0a11 100%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;display:flex;justify-content:center;padding:20px}
+.app{width:100%;max-width:620px;margin:auto}
+.topline{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.85rem;margin:4px 2px 14px}
+.brand{letter-spacing:.08em;text-transform:uppercase;font-size:.75rem;color:var(--pink)}
+.card{background:rgba(27,21,34,.94);border:1px solid var(--line);border-radius:26px;padding:clamp(22px,5vw,34px);box-shadow:0 18px 55px #0005}
+.heart{font-size:2.2rem;color:var(--pink);text-align:center;margin:4px 0 8px}
+h1,h2{text-align:center;margin:0 0 12px;line-height:1.15}
+h1{font-size:clamp(2rem,7vw,3.15rem);letter-spacing:-.04em}
+h1 span{color:var(--pink)}
+h2{font-size:1.65rem}
+p{line-height:1.65;color:var(--muted)}
+.center{text-align:center}
+.pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.pill{border:1px solid var(--line);border-radius:999px;padding:7px 11px;color:#f4d9e5;font-size:.8rem}
+button{font:inherit;cursor:pointer;border:0}
+.primary{display:block;width:100%;background:linear-gradient(100deg,var(--pink),var(--pink2));color:#351421;font-weight:800;padding:14px 18px;border-radius:999px;margin-top:22px;box-shadow:0 7px 22px #ff6e9c33}
+.primary:active{transform:scale(.99)}
+.secondary{background:transparent;color:var(--muted);border:1px solid var(--line);padding:10px 14px;border-radius:999px}
+.progressrow{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin:0 0 10px}
+.track{height:8px;background:#403441;border-radius:20px;overflow:hidden;margin-bottom:26px}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--pink2));transition:width .25s}
+.question{font-size:1.35rem;font-weight:750;line-height:1.35;margin:0 0 20px}
+.answers{display:grid;gap:10px}
+.answer{width:100%;text-align:left;color:var(--text);background:#17121c;border:1px solid #514052;border-radius:16px;padding:14px 15px;display:flex;gap:12px;align-items:center;transition:.15s}
+.answer .letter{display:grid;place-items:center;min-width:29px;height:29px;border-radius:50%;border:1px solid #6a5263;color:var(--pink);font-size:.82rem}
+.answer.selected{border-color:var(--pink);background:#49263a;box-shadow:inset 0 0 0 1px var(--pink)}
+.answer.selected .letter{background:var(--pink);color:#30111f;border-color:var(--pink)}
+.nav{display:flex;gap:10px;align-items:center;margin-top:20px}
+.nav .primary{margin-top:0;flex:1}
+.nav .secondary{min-width:86px}
+.small{font-size:.82rem;color:var(--muted)}
+.resultscore{font-size:clamp(3.6rem,15vw,5.6rem);font-weight:900;letter-spacing:-.06em;text-align:center;color:var(--pink);margin:8px 0}
+.resultscore span{font-size:1.4rem;color:var(--muted);letter-spacing:0}
+.message{border:1px solid #714257;background:#2b1a29;border-radius:18px;padding:18px;margin-top:20px}
+.message h3{margin:0 0 8px;color:var(--pink)}
+.hidden{display:none!important}
+.footer{text-align:center;color:#8e7c8d;font-size:.75rem;margin:16px 0 6px}
+input{width:100%;background:#120e17;border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text);font:inherit}
+label{display:block;margin:13px 0 6px;color:#f4d9e5;font-size:.9rem}
+@media(max-width:420px){body{padding:12px}.card{border-radius:22px;padding:22px 17px}.question{font-size:1.2rem}}
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="topline"><span class="brand">♡ just us things</span><span>Made with a little love</span></div>
+  <section id="welcome" class="card">
+    <div class="heart">♡</div>
+    <h1>How Well Do<br><span>You Know Me?</span></h1>
+    <p class="center">A tiny quiz about me, our memories, and all the little things. No pressure — just have fun. ♡</p>
+    <div class="pills"><span class="pill">15 questions</span><span class="pill">Cute + memories</span><span class="pill">Your final score</span></div>
+    <button class="primary" id="startBtn">Let's find out ♡ →</button>
+    <p class="small center">Tip: Edit the answer key before sharing so every correct answer matches you!</p>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="progressrow"><span id="counter">Question 1 of 15</span><span id="answered">0 answered</span></div>
+    <div class="track"><div class="fill" id="progress"></div></div>
+    <div class="heart">♡</div>
+    <h2 id="question" class="question"></h2>
+    <div id="answers" class="answers"></div>
+    <div class="nav">
+      <button class="secondary" id="backBtn">← Back</button>
+      <button class="primary" id="nextBtn">Next →</button>
+    </div>
+    <p class="small center">Choose the answer you think is right. You can go back anytime.</p>
+  </section>
+
+  <section id="result" class="card hidden">
+    <div class="heart">♡</div>
+    <h2>Your result</h2>
+    <div class="resultscore"><span id="score">0</span><span> / 15</span></div>
+    <p class="center" id="resultLine"></p>
+    <div class="message"><h3>♡ A little message for you</h3><p id="finalMessage" style="margin:0;color:#f8eaf1"></p></div>
+    <button class="primary" id="againBtn">Play again ↻</button>
+    <p class="small center">Your score is calculated on this device. Answers aren't sent to anyone.</p>
+  </section>
+  <div class="footer">made with ♡ · no login needed</div>
+</main>
+<script>
+// CUSTOMISE THIS QUIZ:
+// Change question text/options as you like. Set correct to the exact option text.
+// The starter answer key uses details Sanjay has shared, plus clearly marked editable guesses.
+const questions = [
+ {q:"What is my name?", options:["Sanjay Veera","Karthik","Arun","Vijay"], correct:"Sanjay Veera"},
+ {q:"Which town am I from?", options:["Pudukkottai","Madurai","Trichy","Chennai"], correct:"Pudukkottai"},
+ {q:"What am I studying right now?", options:["12th standard","10th standard","College first year","11th standard"], correct:"12th standard"},
+ {q:"Which group am I studying?", options:["CS Maths","Bio-Maths","Commerce","Pure Science"], correct:"CS Maths"},
+ {q:"What kind of job do I dream of getting?", options:["IT job","Chef","Pilot","Actor"], correct:"IT job"},
+ {q:"What is one skill I want to learn?", options:["Python coding","Guitar only","Baking","Carpentry"], correct:"Python coding"},
+ {q:"What name does my girl call me?", options:["Veera","Boss","Dude","King"], correct:"Veera"},
+ {q:"What is my girl's name?", options:["Lithiya Sri","Divya","Priya","Nila"], correct:"Lithiya Sri"},
+ {q:"What matters most when I think about my future?", options:["Building a good career","Becoming famous overnight","Never studying again","Buying things without a plan"], correct:"Building a good career"},
+ {q:"When I want to improve myself, what should I do?", options:["Work hard and keep learning","Give up after one try","Wait for everything to happen","Avoid every challenge"], correct:"Work hard and keep learning"},
+ {q:"Which kind of message do I usually like?", options:["Short and meaningful","Very formal essays","Only complicated words","No messages at all"], correct:"Short and meaningful"},
+ {q:"What do I want to get better at along with coding?", options:["English communication","Swimming only","Painting only","Cooking only"], correct:"English communication"},
+ {q:"What is a sweet nickname connected to our chats?", options:["Dudumuma","Captain","Professor","Tiger"], correct:"Dudumuma"},
+ {q:"What should we do when there's a misunderstanding?", options:["Talk calmly and listen","Assume the worst","Compare each other to others","Stop listening"], correct:"Talk calmly and listen"},
+ {q:"What is the main point of this quiz?", options:["To have fun and see what you remember","To start a fight","To test school marks","To make you feel bad"], correct:"To have fun and see what you remember"}
+];
+// Before sharing, edit any personal details or answer choices that don't fit.
+// To make a question harder, replace obvious options with things only you both know.
+
+let current = 0;
+let picks = Array(questions.length).fill(null);
+const $ = id => document.getElementById(id);
+function show(id){["welcome","quiz","result"].forEach(s=>$(s).classList.toggle("hidden",s!==id));}
+function renderQuestion(){
+ const item=questions[current];
+ $("counter").textContent=`Question ${current+1} of ${questions.length}`;
+ $("answered").textContent=`${picks.filter(x=>x!==null).length} answered`;
+ $("progress").style.width=`${(current/questions.length)*100}%`;
+ $("question").textContent=item.q;
+ $("answers").innerHTML="";
+ item.options.forEach((opt,i)=>{
+  const b=document.createElement("button");
+  b.className="answer"+(picks[current]===opt?" selected":"");
+  const letter=document.createElement("span"); letter.className="letter"; letter.textContent=String.fromCharCode(65+i);
+  const txt=document.createElement("span"); txt.textContent=opt;
+  b.append(letter,txt); b.addEventListener("click",()=>{picks[current]=opt;renderQuestion();});
+  $("answers").appendChild(b);
+ });
+ $("backBtn").disabled=current===0;
+ $("backBtn").style.opacity=current===0?".45":"1";
+ $("nextBtn").textContent=current===questions.length-1?"See my score ♡":"Next →";
+}
+function finish(){
+ const score=questions.reduce((sum,q,i)=>sum+(picks[i]===q.correct?1:0),0);
+ $("score").textContent=score;
+ const pct=score/questions.length;
+ $("resultLine").textContent=pct===1?"15/15! You know me so well — every little detail! ♡":pct>=.8?"Wow, you know me really well! You remembered so many little things. ♡":pct>=.5?"Not bad at all! There's still more for us to learn about each other. ♡":"It's okay — now you have a few new things to remember about me. Let's make more memories. ♡";
+ $("finalMessage").textContent="Thank you for taking my little quiz. The fact that you tried means a lot to me. Every small thing we learn about each other makes our memories more special. Keep being you, and let's keep talking, laughing, and understanding each other. ♡";
+ show("result");
+}
+$("startBtn").addEventListener("click",()=>{current=0;picks=Array(questions.length).fill(null);show("quiz");renderQuestion();});
+$("backBtn").addEventListener("click",()=>{if(current>0){current--;renderQuestion();}});
+$("nextBtn").addEventListener("click",()=>{if(picks[current]===null){alert("Choose an answer first ♡");return;}if(current<questions.length-1){current++;renderQuestion();}else{finish();}});
+$("againBtn").addEventListener("click",()=>{current=0;picks=Array(questions.length).fill(null);show("welcome");});
+</script>
+</body>
+</html>
